@@ -1,0 +1,114 @@
+{
+  "mtcnn_detect": {
+    "label": "mtcnn.detect() on 640x480 frame (no faces)",
+    "mean": 15.167543799907435,
+    "median": 14.411476999157458,
+    "min": 13.594523999927333,
+    "max": 21.058105998235987
+  },
+  "embed": {
+    "label": "embed() single 160x160 face tensor",
+    "mean": 23.638885466425563,
+    "median": 23.251028998856782,
+    "min": 14.841461001196876,
+    "max": 50.80831799932639
+  },
+  "detect_and_embed_no_face": {
+    "label": "detect_and_embed() 640x480, 0 faces",
+    "mean": 15.616111349845596,
+    "median": 14.189280500431778,
+    "min": 13.580177001131233,
+    "max": 23.090644001058536
+  },
+  "framestore_get_raw": {
+    "label": "FrameStore.get_raw() \u2014 640x480 BGR copy",
+    "mean": 0.038427970284828916,
+    "median": 0.0379230004909914,
+    "min": 0.03678999928524718,
+    "max": 0.05348000195226632
+  },
+  "framestore_set_raw": {
+    "label": "FrameStore.set_raw() \u2014 store new frame",
+    "mean": 0.0002603900429676287,
+    "median": 0.00024899964046198875,
+    "min": 0.00022799940779805183,
+    "max": 0.0004659996193367988
+  },
+  "framestore_get_annotated_same_ver": {
+    "label": "FrameStore.get_annotated() \u2014 same version (no copy)",
+    "mean": 0.038300579763017595,
+    "median": 0.03806749919021968,
+    "min": 0.03691699748742394,
+    "max": 0.04448199979378842
+  },
+  "jpeg_encode_q80": {
+    "label": "cv2.imencode('.jpg', frame, quality=80) \u2014 640x480",
+    "mean": 2.354066740226699,
+    "median": 2.339341501283343,
+    "min": 2.3140539997257292,
+    "max": 2.5355059988214634
+  },
+  "jpeg_encode_q50": {
+    "label": "cv2.imencode('.jpg', frame, quality=50) \u2014 640x480",
+    "mean": 1.790216280205641,
+    "median": 1.777084999048384,
+    "min": 1.7650360023253597,
+    "max": 1.965676998224808
+  },
+  "resize_lanczos": {
+    "label": "PIL resize 200x200 \u2192 120x120, LANCZOS",
+    "mean": 0.7680324799366645,
+    "median": 0.7585200000903569,
+    "min": 0.7456390012521297,
+    "max": 1.0948349990940187
+  },
+  "resize_bilinear": {
+    "label": "PIL resize 200x200 \u2192 120x120, BILINEAR",
+    "mean": 0.3327919998628204,
+    "median": 0.32899799953156617,
+    "min": 0.3209850001439918,
+    "max": 0.6056849997548852
+  },
+  "thumbnail_b64": {
+    "label": "PIL JPEG save + base64 encode (120x120)",
+    "mean": 0.35525693969248096,
+    "median": 0.35089549965050537,
+    "min": 0.34362400037935004,
+    "max": 0.4705459978140425
+  },
+  "find_match_voting_5_persons": {
+    "label": "find_match_voting() \u2014 5 persons in DB",
+    "mean": 2.4077222664345754,
+    "median": 2.3548809986095876,
+    "min": 1.9876279984600842,
+    "max": 3.885430000082124
+  },
+  "find_match_voting_20_persons": {
+    "label": "find_match_voting() \u2014 20 persons in DB",
+    "mean": 2.660522666580315,
+    "median": 2.4844430008670315,
+    "min": 2.2599399999307934,
+    "max": 3.8079350015323143
+  },
+  "find_match_voting_100_persons": {
+    "label": "find_match_voting() \u2014 100 persons in DB",
+    "mean": 2.4862607333488995,
+    "median": 2.482962499925634,
+    "min": 2.1544279989029747,
+    "max": 2.8507470015028957
+  },
+  "list_faces_50": {
+    "label": "list_faces() outerjoin+count \u2014 50 persons",
+    "mean": 2.50153870019858,
+    "median": 2.47519999902579,
+    "min": 2.0385860007081646,
+    "max": 3.6809949997405056
+  },
+  "get_thumbnail_uncached": {
+    "label": "get_thumbnail() \u2014 uncached, 1 embedding",
+    "mean": 1.9596100331303508,
+    "median": 1.8095824980264297,
+    "min": 1.2769989989465103,
+    "max": 3.8535679996130057
+  }
+}

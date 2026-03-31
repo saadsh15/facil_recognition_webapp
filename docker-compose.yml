@@ -1,0 +1,60 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: facerec-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-facerec}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-facerec_pass}
+      POSTGRES_DB: ${POSTGRES_DB:-facerec_db}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-facerec} -d ${POSTGRES_DB:-facerec_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - facerec-net
+
+  backend:
+    build:
+      context: ./backend
+    container_name: facerec-backend
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql+psycopg2://facerec:facerec_pass@db:5432/facerec_db}
+      CAMERA_INDEX: ${CAMERA_INDEX:-0}
+      RECOGNITION_THRESHOLD: ${RECOGNITION_THRESHOLD:-0.70}
+      RECOGNITION_FPS: ${RECOGNITION_FPS:-5}
+      STREAM_JPEG_QUALITY: ${STREAM_JPEG_QUALITY:-60}
+      CORS_ORIGIN: http://localhost
+    privileged: true
+    devices:
+      - "/dev/video0:/dev/video0"
+      - "/dev/video1:/dev/video1"
+      - "/dev/video2:/dev/video2"
+      - "/dev/video3:/dev/video3"
+    group_add:
+      - "983"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - facerec-net
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: facerec-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - facerec-net
+
+networks:
+  facerec-net:
+    driver: bridge
+
+volumes:
+  postgres_data:
