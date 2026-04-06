@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev \
     gcc \
     python3-dev \
+    v4l-utils \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy dependency files first for caching

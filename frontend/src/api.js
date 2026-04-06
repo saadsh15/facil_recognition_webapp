@@ -43,3 +43,9 @@ export const batchThumbnails = (ids) =>
 
 /** Delete a person and all their embeddings. */
 export const deleteFace = (id) => api.delete(`/api/faces/${id}`);
+
+/** Fetch camera hardware settings via v4l2-ctl */
+export const getCameraSettings = () => api.get("/api/camera/settings").then((r) => r.data);
+
+/** Update one or more camera settings */
+export const updateCameraSettings = (settings) => api.post("/api/camera/settings", settings).then((r) => r.data);

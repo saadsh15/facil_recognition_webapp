@@ -1,0 +1,15 @@
+# Environment variables (personal data)
+.env
+.env.*
+backend/.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+backend/.venv/
+
+# Node.js
+node_modules/
+frontend/node_modules/
+frontend/dist/

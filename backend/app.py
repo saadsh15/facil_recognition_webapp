@@ -73,6 +73,44 @@ def _start_capture_purge_thread(app_config: dict) -> None:
 
 def _register_routes(app: Flask) -> None:
 
+    @app.get("/api/camera/settings")
+    def get_camera_settings():
+        import subprocess
+        import re
+        from camera import CAMERA_INDEX
+        try:
+            res = subprocess.run(["v4l2-ctl", "-d", f"/dev/video{CAMERA_INDEX}", "-l"], capture_output=True, text=True, check=True)
+            settings = {}
+            for line in res.stdout.splitlines():
+                match = re.search(r'^\s*([a-z_]+)\s+0x.*min=(-?\d+).*max=(-?\d+).*step=(\d+).*value=(-?\d+)', line)
+                if match:
+                    name, vmin, vmax, step, val = match.groups()
+                    settings[name] = {
+                        "min": int(vmin),
+                        "max": int(vmax),
+                        "step": int(step),
+                        "value": int(val)
+                    }
+            return jsonify(settings)
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+
+    @app.post("/api/camera/settings")
+    def set_camera_settings():
+        import subprocess
+        from camera import CAMERA_INDEX
+        data = request.get_json(silent=True)
+        if not data:
+            return jsonify({"error": "No data"}), 400
+        try:
+            for key, value in data.items():
+                subprocess.run(["v4l2-ctl", "-d", f"/dev/video{CAMERA_INDEX}", "-c", f"{key}={value}"], check=True)
+            return jsonify({"status": "success"})
+        except subprocess.CalledProcessError as e:
+            return jsonify({"error": f"v4l2-ctl failed: {e.stderr}"}), 500
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+
     @app.get("/stream")
     def stream():
         from stream import generate_mjpeg
